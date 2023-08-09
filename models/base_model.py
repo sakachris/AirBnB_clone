@@ -4,6 +4,8 @@ Module for the base class of the project
 """
 from uuid import uuid4
 from datetime import datetime
+from models import storage
+# from models.engine.file_storage import FileStorage
 
 
 class BaseModel:
@@ -24,6 +26,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """ Implementing string output """
@@ -33,24 +36,15 @@ class BaseModel:
     def save(self):
         """ updates updated_at with the current datetime """
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """  returns a dictionary of the object instance """
-        self.created_at = self.created_at.isoformat()
-        self.updated_at = self.updated_at.isoformat()
-        dt = self.__dict__
+        dt = {}
         dt["__class__"] = __class__.__name__
+        for key, val in self.__dict__.items():
+            if type(val) == datetime:
+                dt[key] = val.isoformat()
+            else:
+                dt[key] = val
         return dt
-
-
-"""one = BaseModel()
-print(one)
-print(one.id)
-print(type(one.id))
-print(one.created_at)
-print(type(one.created_at))
-print(one.updated_at)
-print(type(one.updated_at))
-one.save()
-print(one)
-print(one.to_dict())"""
