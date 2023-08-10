@@ -30,7 +30,7 @@ class BaseModel:
 
     def __str__(self):
         """ Implementing string output """
-        return ("[{}] ({}) {}".format(__class__.__name__, self.id,
+        return ("[{}] ({}) {}".format(self.__class__.__name__, self.id,
                                       self.__dict__))
 
     def save(self):
@@ -41,7 +41,7 @@ class BaseModel:
     def to_dict(self):
         """  returns a dictionary of the object instance """
         dt = {}
-        dt["__class__"] = __class__.__name__
+        dt["__class__"] = self.__class__.__name__
         for key, val in self.__dict__.items():
             if type(val) == datetime:
                 dt[key] = val.isoformat()

@@ -3,7 +3,7 @@
 console.py module for the command interpreter
 """
 import cmd
-from models import base_model
+from models import base_model, user
 from models import storage
 from ast import literal_eval
 
@@ -13,6 +13,8 @@ class HBNBCommand(cmd.Cmd):
     class for writing command interpreter
     """
     prompt = "(hbnb) "
+
+    classes = {'BaseModel': base_model, 'User': user}
 
     def do_EOF(self, line):
         """End of line marker; Ctr+D exits"""
@@ -31,10 +33,10 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel"""
         if len(line) == 0:
             print("** class name missing **")
-        elif line != 'BaseModel':
+        elif line not in HBNBCommand.classes.keys():
             print("** class doesn't exist **")
         else:
-            cls_obj = getattr(base_model, line)
+            cls_obj = getattr(HBNBCommand.classes[line], line)
             cls_ins = cls_obj()
             cls_ins.save()
             print(cls_ins.id)
@@ -44,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
         cmds = line.split()
         if len(cmds) == 0:
             print("** class name missing **")
-        elif cmds[0] != 'BaseModel':
+        elif cmds[0] not in HBNBCommand.classes.keys():
             print("** class doesn't exist **")
         elif len(cmds) == 1:
             print("** instance id missing **")
@@ -61,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
         cmds = line.split()
         if len(cmds) == 0:
             print("** class name missing **")
-        elif cmds[0] != 'BaseModel':
+        elif cmds[0] not in HBNBCommand.classes.keys():
             print("** class doesn't exist **")
         elif len(cmds) == 1:
             print("** instance id missing **")
@@ -80,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
             for val in storage.all().values():
                 print(val)
         elif len(cmds) == 1:
-            if cmds[0] != 'BaseModel':
+            if cmds[0] not in HBNBCommand.classes.keys():
                 print("** class doesn't exist **")
             else:
                 for key, val in storage.all().items():
@@ -92,7 +94,7 @@ class HBNBCommand(cmd.Cmd):
         cmds = line.split()
         if len(cmds) == 0:
             print("** class name missing **")
-        elif cmds[0] != 'BaseModel':
+        elif cmds[0] not in HBNBCommand.classes.keys():
             print("** class doesn't exist **")
         elif len(cmds) == 1:
             print("** instance id missing **")

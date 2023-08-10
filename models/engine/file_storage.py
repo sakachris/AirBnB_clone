@@ -41,11 +41,16 @@ class FileStorage:
         """
         deserializes the JSON file to __objects if it exists
         """
-        from models import base_model
+        from models import base_model, user
+        cls = {'BaseModel': base_model, 'User': user}
         if isfile(FileStorage.__file_path):
             with open(FileStorage.__file_path, encoding='UTF-8') as file:
                 from_json = load(file)
                 for val in from_json.values():
                     cls_name = val["__class__"]
-                    cls_obj = getattr(base_model, cls_name)
+                    cls_obj = getattr(cls[cls_name], cls_name)
+                    # if cls_name == 'BaseModel':
+                    # cls_obj = getattr(base_model, cls_name)
+                    # elif cls_name == 'User':
+                    # cls_obj = getattr(user, cls_name)
                     self.new(cls_obj(**val))
