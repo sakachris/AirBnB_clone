@@ -5,6 +5,7 @@ console.py module for the command interpreter
 import cmd
 from models import base_model
 from models import storage
+from ast import literal_eval
 
 
 class HBNBCommand(cmd.Cmd):
@@ -79,9 +80,12 @@ class HBNBCommand(cmd.Cmd):
             for val in storage.all().values():
                 print(val)
         elif len(cmds) == 1:
-            for key, val in storage.all().items():
-                if key.startswith(cmds[0]):
-                    print(val)
+            if cmds[0] != 'BaseModel':
+                print("** class doesn't exist **")
+            else:
+                for key, val in storage.all().items():
+                    if key.startswith(cmds[0]):
+                        print(val)
 
     def do_update(self, line):
         """ Updates an instance based on the class.id by add/updating attr"""
@@ -103,12 +107,10 @@ class HBNBCommand(cmd.Cmd):
             else:
                 key = f"{cmds[0]}.{cmds[1]}"
                 try:
-                    a_type = type(getattr(storage.all()[key], cmds[2]))
-                    setattr(storage.all()[key], cmds[2], a_type(cmds[3]))
+                    setattr(storage.all()[key], cmds[2], literal_eval(cmds[3]))
                     storage.save()
-                except AttributeError:
-                    setattr(storage.all()[key], cmds[2], cmds[3])
-                    storage.save()
+                except ValueError:
+                    pass
 
 
 if __name__ == '__main__':
