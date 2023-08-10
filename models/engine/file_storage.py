@@ -41,8 +41,10 @@ class FileStorage:
         """
         deserializes the JSON file to __objects if it exists
         """
-        from models import base_model, user
-        cls = {'BaseModel': base_model, 'User': user}
+        from models import base_model, user, amenity
+        from models import place, city, state, review
+        cls = {'BaseModel': base_model, 'User': user, 'Amenity': amenity,
+               'Place': place, 'City': city, 'State': state, 'Review': review}
         if isfile(FileStorage.__file_path):
             with open(FileStorage.__file_path, encoding='UTF-8') as file:
                 from_json = load(file)

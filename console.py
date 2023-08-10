@@ -3,7 +3,7 @@
 console.py module for the command interpreter
 """
 import cmd
-from models import base_model, user
+from models import base_model, user, amenity, place, city, state, review
 from models import storage
 from ast import literal_eval
 
@@ -14,7 +14,8 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    classes = {'BaseModel': base_model, 'User': user}
+    classes = {'BaseModel': base_model, 'User': user, 'Amenity': amenity,
+               'Place': place, 'City': city, 'State': state, 'Review': review}
 
     def do_EOF(self, line):
         """End of line marker; Ctr+D exits"""
