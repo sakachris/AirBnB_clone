@@ -4,7 +4,7 @@ from models.base_model import BaseModel
 
 
 class Place(BaseModel):
-    """shows a place"""
+    """shows a place class inheriting BaseModel"""
     city_id = ""
     user_id = ""
     name = ""
