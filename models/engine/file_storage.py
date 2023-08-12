@@ -5,7 +5,6 @@ models/engine/file_storage.py for JSON serialization & deserialization
 from os.path import isfile
 from json import dump, load
 import sys
->>>>>>> cs
 
 
 class FileStorage:
@@ -27,7 +26,6 @@ class FileStorage:
         """
         obj_name = obj.__class__.__name__
         FileStorage.__objects["{}.{}".format(obj_name, obj.id)] = obj
-=======
     serializes instances to a JSON file and deserializes JSON file to instances
     """
     __file_path = 'file.json'
@@ -68,4 +66,3 @@ class FileStorage:
                     cls_name = val["__class__"]
                     cls_obj = getattr(base_model, cls_name)
                     self.new(cls_obj(**val))
->>>>>>> cs
