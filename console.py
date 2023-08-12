@@ -115,6 +115,12 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     pass
 
+    def default(self, line):
+        """Runs none built in command"""
+        cmds = line.split('.')
+        if cmds[1] == "all()":
+            self.do_all(cmds[0])
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
