@@ -27,7 +27,6 @@ class FileStorage:
         obj_name = obj.__class__.__name__
         FileStorage.__objects["{}.{}".format(obj_name, obj.id)] = obj
     serializes instances to a JSON file and deserializes JSON file to instances
-    """
     __file_path = 'file.json'
     __objects = {}
 
