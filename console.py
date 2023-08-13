@@ -140,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
                     if cmd == "show":
                         self.do_show(cmds[0]+" "+id)
                 elif cmds[1].startswith("destroy"):
-                    Rgx2 = re.compile(r'(show)\((.*)\)')
+                    Rgx2 = re.compile(r'(destroy)\((.*)\)')
                     grp2 = Rgx2.search(cmds[1])
                     cmd2, id2 = grp2.groups()
                     if id2.startswith(('"', "'")):
