@@ -147,6 +147,26 @@ class HBNBCommand(cmd.Cmd):
                         id2 = id2[1:-1]
                     if cmd2 == "destroy":
                         self.do_destroy(cmds[0]+" "+id2)
+                elif cmds[1].startswith("update"):
+                    Rgx3 = re.compile(r'(update)\((.*)\)')
+                    grp3 = Rgx3.search(cmds[1])
+                    cmd3, string = grp3.groups()
+                    if cmd3 == "update":
+                        if len(string) == 0:
+                            self.do_update(cmds[0]+" ")
+                        else:
+                            var = string.split(',')
+                            lst = []
+                            for i in var:
+                                lst.append(i.strip())
+                            if len(lst) == 1:
+                                self.do_update(cmds[0]+" "+lst[0][1:-1])
+                            elif len(lst) == 2:
+                                self.do_update(cmds[0]+" "+lst[0][1:-1]+" "+lst
+                                               [1][1:-1])
+                            else:
+                                self.do_update(cmds[0]+" "+lst[0][1:-1]+" "+lst
+                                               [1][1:-1]+" "+lst[2])
                 else:
                     print(f"*** Unknown syntax: {line}")
 
