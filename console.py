@@ -119,33 +119,34 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """Runs none built in command"""
         cmds = line.split('.')
-        if cmds[1] == "all()":
-            self.do_all(cmds[0])
-        elif cmds[1] == "count()":
-            count = 0
-            for key, val in storage.all().items():
-                if key.startswith(cmds[0]):
-                    count += 1
-            print(count)
-        else:
-            if cmds[1].startswith("show"):
-                Rgx = re.compile(
-                    r'(show)\("([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]'
-                    r'{4}-[a-f0-9]{4}-[a-f0-9]{12})"'
-                )
-                grp = Rgx.search(cmds[1])
-                cmd, id = grp.groups()
-                if cmd == "show":
-                    self.do_show(cmds[0]+" "+id)
-            elif cmds[1].startswith("destroy"):
-                Rgx2 = re.compile(
-                    r'(destroy)\("([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]'
-                    r'{4}-[a-f0-9]{4}-[a-f0-9]{12})"'
-                )
-                grp2 = Rgx2.search(cmds[1])
-                cmd2, id2 = grp2.groups()
-                if cmd2 == "destroy":
-                    self.do_destroy(cmds[0]+" "+id2)
+        if len(cmds) > 1:
+            if cmds[1] == "all()":
+                self.do_all(cmds[0])
+            elif cmds[1] == "count()":
+                count = 0
+                for key, val in storage.all().items():
+                    if key.startswith(cmds[0]):
+                        count += 1
+                print(count)
+            else:
+                if cmds[1].startswith("show"):
+                    Rgx = re.compile(
+                        r'(show)\("([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]'
+                        r'{4}-[a-f0-9]{4}-[a-f0-9]{12})"'
+                    )
+                    grp = Rgx.search(cmds[1])
+                    cmd, id = grp.groups()
+                    if cmd == "show":
+                        self.do_show(cmds[0]+" "+id)
+                elif cmds[1].startswith("destroy"):
+                    Rgx2 = re.compile(
+                        r'(destroy)\("([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]'
+                        r'{4}-[a-f0-9]{4}-[a-f0-9]{12})"'
+                    )
+                    grp2 = Rgx2.search(cmds[1])
+                    cmd2, id2 = grp2.groups()
+                    if cmd2 == "destroy":
+                        self.do_destroy(cmds[0]+" "+id2)
 
 
 if __name__ == '__main__':
