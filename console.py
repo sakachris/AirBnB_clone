@@ -119,6 +119,8 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """Runs none built in command"""
         cmds = line.split('.')
+        if len(cmds) == 1:
+            print(f"*** Unknown syntax: {line}")
         if len(cmds) > 1:
             if cmds[1] == "all()":
                 self.do_all(cmds[0])
@@ -130,23 +132,23 @@ class HBNBCommand(cmd.Cmd):
                 print(count)
             else:
                 if cmds[1].startswith("show"):
-                    Rgx = re.compile(
-                        r'(show)\("([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]'
-                        r'{4}-[a-f0-9]{4}-[a-f0-9]{12})"'
-                    )
+                    Rgx = re.compile(r'(show)\((.*)\)')
                     grp = Rgx.search(cmds[1])
                     cmd, id = grp.groups()
+                    if id.startswith(('"', "'")):
+                        id = id[1:-1]
                     if cmd == "show":
                         self.do_show(cmds[0]+" "+id)
                 elif cmds[1].startswith("destroy"):
-                    Rgx2 = re.compile(
-                        r'(destroy)\("([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]'
-                        r'{4}-[a-f0-9]{4}-[a-f0-9]{12})"'
-                    )
+                    Rgx2 = re.compile(r'(show)\((.*)\)')
                     grp2 = Rgx2.search(cmds[1])
                     cmd2, id2 = grp2.groups()
+                    if id2.startswith(('"', "'")):
+                        id2 = id2[1:-1]
                     if cmd2 == "destroy":
                         self.do_destroy(cmds[0]+" "+id2)
+                else:
+                    print(f"*** Unknown syntax: {line}")
 
 
 if __name__ == '__main__':
